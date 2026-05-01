@@ -17,19 +17,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only= True)
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'slug']
+        read_only_fields= ['slug']
         
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'post', 'author', 'body', 'created_at']
+        fields = ['id', 'author', 'body', 'created_at']
         read_only_fields = ['author', 'created_at']
         
 class PostSerializer(serializers.ModelSerializer):
